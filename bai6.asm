@@ -15,14 +15,32 @@ MAIN Proc
     lea dx, msg1
     int 21h
     
+    mov ah, 10
+    lea dx, str
+    int 21h
+    
     ;hien thi thong bao 2
+    mov ah, 9
     lea dx, msg2
     int 21h
     
-    call solve
-MAIN Endp
-    solve proc
+    lea si, str+2
+    mov bx, [si]
+    xor ax, ax 
+    xor cx, cx
+    mov cl, [str + 1]
+    lap1:
+      inc si
+      mov dx, [si]
+      cmp bx, dx
+      jne in1
+      loop lap1
+    in1: 
+      mov dl, al
+      add dl, '0'
+      mov ah, 2
+      int 21h
         
-    solve endp
+MAIN Endp
 END MAIN
     
