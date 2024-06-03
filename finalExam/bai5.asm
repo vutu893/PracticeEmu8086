@@ -26,18 +26,8 @@ MAIN Proc
     lea si, str+2
     xor cx, cx
     mov cl, str + 1
-loop_deci:
-    xor dx, dx
-    mov dl, [si]
-    sub dl, '0'
-    sub cl, 1
-    shl dl, cl
-    add deci, dl
-    inc si
-    inc cl
-    loop loop_deci
-    
-    
+
+    call convert_binary_to_decima
     ;hien thi ket qua
     mov ah, 9
     lea dx, msg2
@@ -69,4 +59,19 @@ MAIN Endp
             loop print
         ret
     print_result endp
-END MAIN
+    
+    convert_binary_to_decima proc
+        loop_deci:
+        xor dx, dx
+        mov dl, [si]
+        sub dl, '0'
+        sub cl, 1
+        shl dl, cl
+        add deci, dl
+        inc si
+        inc cl
+        loop loop_deci 
+        ret
+    convert_binary_to_decima endp
+    
+END MAIN             
