@@ -2,13 +2,11 @@
 .model small
 .stack 100h
 .data
-    msg1 db 10, 13, 'Enter a binary: $'
+    msg1 db 10, 13, 'Enter a binary number 8bit: $'
     msg2 db 10, 13, '>>>> Result decimary: $'
     msg3 db 10, 13, '>>>> Result hexa: $'
     str db 256 dup('$')
-    count db 8
-    sum db 0
-    hai db 2 
+    deci db 0 
     muoi dw 10
 .code
 MAIN Proc
@@ -25,53 +23,30 @@ MAIN Proc
     lea dx, str
     int 21h
     
-    lea si, str + 2
-    mov bx, 0000h
+    lea si, str+2
     xor cx, cx
     mov cl, str + 1
-    
 loop_deci:
     xor dx, dx
-    mov dl, [si + bx]
+    mov dl, [si]
     sub dl, '0'
-    cmp dl, 0
-    je khong
-    cmp dl, 1
-    je mot
-khong:
-    inc bx
-    dec count           
-    dec cx
-    cmp cx, 0
-    jne loop_deci
-    jmp result
-mot:
-    inc bx
-    xor ax, ax
-    mov ax, 0001h
-    mov count, cl
-    sub count, 1
-loop_luy_thua:
-    mul hai
-    dec count
-    cmp count, 0
-    jne loop_luy_thua
+    sub cl, 1
+    shl dl, cl
+    add deci, dl
+    inc si
+    inc cl
+    loop loop_deci
     
-    add sum, 1
-    add sum, al
-    dec cx
     
-    cmp cx, 0
-    jne loop_deci
-    
-result:    ;hien thi ket qua
+    ;hien thi ket qua
     mov ah, 9
     lea dx, msg2
     int 21h
     
     xor ax, ax
-    mov al, sum
+    mov al, deci
     call print_result
+      
 exit_programing:    
     mov ah, 4ch
     int 21h
