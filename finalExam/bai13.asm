@@ -1,4 +1,4 @@
-;bai13: so fibonacci mo rong
+;bai13: so fibonacci mo rong toi 14 so dau
 .model small
 .stack 100h
 .data 
@@ -6,6 +6,7 @@
     msg2 db 10, 13, 'n so fabonaci dau tien la: $'
     space db 32, '$'
     fabo db 100 dup(?)
+    str db 100 dup('$')
     n db 0
     muoi dw 10
 .code 
@@ -19,11 +20,28 @@ MAIN Proc
     int 21h
     
     ;nhap so n
-    mov ah, 1
+    mov ah, 10
+    lea dx, str
     int 21h
-    sub al, '0'
-    mov n, al
     
+    xor bx, bx
+    xor cx, cx
+    lea di, str+ 2
+    mov cl, str + 1 
+    xor ax, ax
+   
+loop_for1:
+    mov al, 10
+    xor dx, dx
+    mov dl, [di]
+    sub dl, '0'
+    mul bl
+    add ax, dx
+    mov bx, ax
+    inc di
+    loop loop_for1
+    
+    mov n, bl
     ;hien thi thong bao 2
     mov ah, 9
     lea dx, msg2
