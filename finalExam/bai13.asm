@@ -24,6 +24,7 @@ MAIN Proc
     lea dx, str
     int 21h
     
+    ;chuyen chuoi thanh so 123 => so 123
     xor bx, bx
     xor cx, cx
     lea di, str+ 2
